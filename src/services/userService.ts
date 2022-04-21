@@ -4,14 +4,20 @@ import bcrypt from 'bcrypt';
 import ConflictError from '../errors/ConflictError';
 import UnauthorizedError from '../errors/UnauthorizedError';
 
-import { Email, UserAuthData, UserInsertData } from '../interfaces/User';
+import { UserAuthData, UserInsertData } from '../interfaces/User';
 import * as userRepository from '../repositories/userRepository';
 import { generateToken } from '../utils/generateToken';
 
-async function findByEmail({ email }: Email): Promise<User> {
-    const searchByEmail = await userRepository.findByEmail({ email });
+async function findByEmail(email: string): Promise<User> {
+    const searchByEmail = await userRepository.findByEmail(email);
 
     return searchByEmail;
+}
+
+async function findById(id: number): Promise<User> {
+    const user = await userRepository.findById(id);
+
+    return user;
 }
 
 async function registration(createUser: UserInsertData): Promise<User> {
@@ -21,7 +27,7 @@ async function registration(createUser: UserInsertData): Promise<User> {
         password,
     } = createUser;
 
-    const searchByEmail = await findByEmail({ email });
+    const searchByEmail = await findByEmail(email);
 
     if (searchByEmail) {
         throw new ConflictError('This email already exists');
@@ -44,7 +50,7 @@ async function authentication(authUserInfo: UserAuthData): Promise<string> {
         password,
     } = authUserInfo;
 
-    const user = await findByEmail({ email });
+    const user = await findByEmail(email);
 
     if (!user) {
         throw new UnauthorizedError('Incorrect email or password');
@@ -63,6 +69,7 @@ async function authentication(authUserInfo: UserAuthData): Promise<string> {
 
 export {
     findByEmail,
+    findById,
     registration,
     authentication,
 };

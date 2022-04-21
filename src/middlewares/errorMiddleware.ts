@@ -11,7 +11,8 @@ async function errorMiddleware(
     res: Response,
     next: NextFunction,
 ) {
-    // console.log(error);
+    // eslint-disable-next-line no-console
+    console.log(error);
 
     if (error.name === 'BodyError') {
         return res.sendStatus(400);

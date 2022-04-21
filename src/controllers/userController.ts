@@ -32,7 +32,16 @@ async function login(req: Request, res: Response): Promise<Response> {
     return res.send(token);
 }
 
+async function getUserInfo(req: Request, res: Response): Promise<Response> {
+    const userId = res.locals.user;
+
+    const token = await userService.findById(userId);
+
+    return res.send(token);
+}
+
 export {
     signUp,
     login,
+    getUserInfo,
 };

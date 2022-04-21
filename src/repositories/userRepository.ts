@@ -1,6 +1,6 @@
 import { User } from '@prisma/client';
 import { repoProvas } from '../database';
-import { Email, UserInsertData } from '../interfaces/User';
+import { UserInsertData } from '../interfaces/User';
 
 async function create({
     name,
@@ -18,9 +18,17 @@ async function create({
     return user;
 }
 
-async function findByEmail({ email }: Email): Promise<User> {
+async function findByEmail(email: string): Promise<User> {
     const user = await repoProvas.user.findFirst({
         where: { email },
+    });
+
+    return user;
+}
+
+async function findById(id: number): Promise<User> {
+    const user = await repoProvas.user.findFirst({
+        where: { id },
     });
 
     return user;
@@ -29,4 +37,5 @@ async function findByEmail({ email }: Email): Promise<User> {
 export {
     create,
     findByEmail,
+    findById,
 };
