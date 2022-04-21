@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { UserAuthData, UserInsertData } from '../interfaces/User';
 import * as userService from '../services/userService';
 
-async function signUp(req: Request, res: Response) {
+async function signUp(req: Request, res: Response): Promise<Response> {
     const {
         name,
         email,
@@ -18,7 +18,7 @@ async function signUp(req: Request, res: Response) {
     return res.send(user);
 }
 
-async function login(req: Request, res: Response) {
+async function login(req: Request, res: Response): Promise<Response> {
     const {
         email,
         password,

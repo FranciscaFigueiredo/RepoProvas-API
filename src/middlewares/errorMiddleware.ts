@@ -11,7 +11,7 @@ async function errorMiddleware(
     res: Response,
     next: NextFunction,
 ) {
-    console.log(error);
+    // console.log(error);
 
     if (error.name === 'BodyError') {
         return res.sendStatus(400);
