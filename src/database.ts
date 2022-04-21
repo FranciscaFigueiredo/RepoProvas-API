@@ -1,6 +1,5 @@
-import pkg from '@prisma/client';
+import { PrismaClient } from '@prisma/client';
 
-const { PrismaClient } = pkg;
 const repoProvas = new PrismaClient();
 
 export {
