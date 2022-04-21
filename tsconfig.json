@@ -1,0 +1,9 @@
+{
+    "compilerOptions": {
+        "noImplicitAny": true,
+        "esModuleInterop": true
+    },
+    "ts-node": {
+        "esm": true
+    }
+}
