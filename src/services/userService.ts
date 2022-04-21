@@ -1,15 +1,20 @@
+import { User } from '@prisma/client';
 import bcrypt from 'bcrypt';
-import ConflictError from '../errors/ConflictError';
-import { Email, UserInsertData } from '../interfaces/User';
-import * as userRepository from '../repositories/userRepository';
 
-async function findByEmail({ email }: Email) {
+import ConflictError from '../errors/ConflictError';
+import UnauthorizedError from '../errors/UnauthorizedError';
+
+import { Email, UserAuthData, UserInsertData } from '../interfaces/User';
+import * as userRepository from '../repositories/userRepository';
+import { generateToken } from '../utils/generateToken';
+
+async function findByEmail({ email }: Email): Promise<User> {
     const searchByEmail = await userRepository.findByEmail({ email });
 
     return searchByEmail;
 }
 
-async function registration(createUser: UserInsertData) {
+async function registration(createUser: UserInsertData): Promise<User> {
     const {
         name,
         email,
@@ -33,7 +38,31 @@ async function registration(createUser: UserInsertData) {
     return userCreated;
 }
 
+async function authentication(authUserInfo: UserAuthData): Promise<string> {
+    const {
+        email,
+        password,
+    } = authUserInfo;
+
+    const user = await findByEmail({ email });
+
+    if (!user) {
+        throw new UnauthorizedError('Incorrect email or password');
+    }
+
+    const isAuthorized = bcrypt.compareSync(password, user.password);
+
+    if (!isAuthorized) {
+        throw new UnauthorizedError('Incorrect email or password');
+    }
+
+    const token = generateToken(user.id);
+
+    return token;
+}
+
 export {
     findByEmail,
     registration,
+    authentication,
 };

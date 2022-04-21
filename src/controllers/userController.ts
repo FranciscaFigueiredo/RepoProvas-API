@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
-import { UserInsertData } from '../interfaces/User';
-import { registration } from '../services/userService';
+import { UserAuthData, UserInsertData } from '../interfaces/User';
+import * as userService from '../services/userService';
 
 async function signUp(req: Request, res: Response) {
     const {
@@ -9,15 +9,30 @@ async function signUp(req: Request, res: Response) {
         password,
     }: UserInsertData = req.body;
 
-    const user = await registration({
+    const user = await userService.registration({
         name,
         email,
         password,
     });
 
-    res.send(user);
+    return res.send(user);
+}
+
+async function login(req: Request, res: Response) {
+    const {
+        email,
+        password,
+    }: UserAuthData = req.body;
+
+    const token = await userService.authentication({
+        email,
+        password,
+    });
+
+    return res.send(token);
 }
 
 export {
     signUp,
+    login,
 };

@@ -1,3 +1,4 @@
+import { User } from '@prisma/client';
 import { repoProvas } from '../database';
 import { Email, UserInsertData } from '../interfaces/User';
 
@@ -5,7 +6,7 @@ async function create({
     name,
     email,
     password,
-}: UserInsertData) {
+}: UserInsertData): Promise<User> {
     const user = await repoProvas.user.create({
         data: {
             name,
@@ -17,7 +18,7 @@ async function create({
     return user;
 }
 
-async function findByEmail({ email }: Email) {
+async function findByEmail({ email }: Email): Promise<User> {
     const user = await repoProvas.user.findFirst({
         where: { email },
     });
