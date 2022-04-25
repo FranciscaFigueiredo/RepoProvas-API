@@ -1,7 +1,7 @@
 import { repoProvas } from '../database';
 
 async function findTests() {
-    const user = await repoProvas.test.findMany({
+    const tests = await repoProvas.test.findMany({
         orderBy: {
             teacherDiscipline: {
                 discipline: {
@@ -24,9 +24,70 @@ async function findTests() {
         },
     });
 
-    return user;
+    return tests;
+}
+
+async function findTestsByTermNumber(number: number) {
+    const tests = await repoProvas.test.findMany({
+        where: {
+            teacherDiscipline: {
+                discipline: {
+                    term: {
+                        number,
+                    },
+                },
+            },
+        },
+        include: {
+            teacherDiscipline: {
+                include: {
+                    teacher: true,
+                    discipline: {
+                        include: {
+                            term: true,
+                        },
+                    },
+                },
+            },
+            category: true,
+        },
+    });
+
+    return tests;
+}
+
+async function findTestsByTermNumberAndDiscipline(number: number, disciplineId: number) {
+    const tests = await repoProvas.test.findMany({
+        where: {
+            teacherDiscipline: {
+                discipline: {
+                    id: disciplineId,
+                    term: {
+                        number,
+                    },
+                },
+            },
+        },
+        include: {
+            teacherDiscipline: {
+                include: {
+                    teacher: true,
+                    discipline: {
+                        include: {
+                            term: true,
+                        },
+                    },
+                },
+            },
+            category: true,
+        },
+    });
+
+    return tests;
 }
 
 export {
     findTests,
+    findTestsByTermNumber,
+    findTestsByTermNumberAndDiscipline,
 };

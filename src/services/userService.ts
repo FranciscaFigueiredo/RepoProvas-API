@@ -4,7 +4,7 @@ import bcrypt from 'bcrypt';
 import ConflictError from '../errors/ConflictError';
 import UnauthorizedError from '../errors/UnauthorizedError';
 
-import { UserAuthData, UserInsertData } from '../interfaces/User';
+import { UserAuthData, UserInsertData, UserLogin } from '../interfaces/User';
 import * as userRepository from '../repositories/userRepository';
 import { generateToken } from '../utils/generateToken';
 
@@ -44,7 +44,7 @@ async function registration(createUser: UserInsertData): Promise<User> {
     return userCreated;
 }
 
-async function authentication(authUserInfo: UserAuthData): Promise<string> {
+async function authentication(authUserInfo: UserAuthData): Promise<UserLogin> {
     const {
         email,
         password,
@@ -64,7 +64,12 @@ async function authentication(authUserInfo: UserAuthData): Promise<string> {
 
     const token = generateToken(user.id);
 
-    return token;
+    return {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        token,
+    };
 }
 
 export {

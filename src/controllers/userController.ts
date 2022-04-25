@@ -24,12 +24,12 @@ async function login(req: Request, res: Response): Promise<Response> {
         password,
     }: UserAuthData = req.body;
 
-    const token = await userService.authentication({
+    const user = await userService.authentication({
         email,
         password,
     });
 
-    return res.send(token);
+    return res.send(user);
 }
 
 async function getUserInfo(req: Request, res: Response): Promise<Response> {
