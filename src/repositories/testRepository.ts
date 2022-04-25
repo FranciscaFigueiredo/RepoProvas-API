@@ -86,8 +86,25 @@ async function findTestsByTermNumberAndDiscipline(number: number, disciplineId: 
     return tests;
 }
 
+async function findTestsByTeacherAndCategoryId(teacherId: number, categoryId: number) {
+    const tests = await repoProvas.test.findMany({
+        where: {
+            categoryId,
+            teacherDiscipline: {
+                teacherId,
+            },
+        },
+        include: {
+            category: true,
+        },
+    });
+
+    return tests;
+}
+
 export {
     findTests,
     findTestsByTermNumber,
     findTestsByTermNumberAndDiscipline,
+    findTestsByTeacherAndCategoryId,
 };

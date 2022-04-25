@@ -24,8 +24,18 @@ async function getTestsInfoByTermAndDiscipline(req: Request, res: Response): Pro
     return res.send(tests);
 }
 
+async function getTestsInfoByTeacherAndCategory(req: Request, res: Response): Promise<Response> {
+    const { teacher, category } = req.params;
+
+    const tests = await testService
+        .findTestsListByTeacherAndCategory(Number(teacher), Number(category));
+
+    return res.send(tests);
+}
+
 export {
     getTestsInfo,
     getTestsInfoByTerm,
     getTestsInfoByTermAndDiscipline,
+    getTestsInfoByTeacherAndCategory,
 };

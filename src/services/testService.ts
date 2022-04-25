@@ -18,8 +18,15 @@ async function findTestsListByTermAndDiscipline(term: number, disciplineId: numb
     return tests;
 }
 
+async function findTestsListByTeacherAndCategory(teacherId: number, categoryId: number) {
+    const tests = await testRepository.findTestsByTeacherAndCategoryId(teacherId, categoryId);
+
+    return tests;
+}
+
 export {
     findTestsList,
     findTestsListByTerm,
     findTestsListByTermAndDiscipline,
+    findTestsListByTeacherAndCategory,
 };
