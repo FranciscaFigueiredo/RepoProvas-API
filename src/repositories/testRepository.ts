@@ -95,6 +95,15 @@ async function findTestsByTeacherAndCategoryId(teacherId: number, categoryId: nu
             },
         },
         include: {
+            teacherDiscipline: {
+                include: {
+                    discipline: {
+                        include: {
+                            term: true,
+                        },
+                    },
+                },
+            },
             category: true,
         },
     });
