@@ -15,7 +15,7 @@ async function signUp(req: Request, res: Response): Promise<Response> {
         password,
     });
 
-    return res.send(user);
+    return res.status(201).send(user);
 }
 
 async function login(req: Request, res: Response): Promise<Response> {
@@ -29,7 +29,7 @@ async function login(req: Request, res: Response): Promise<Response> {
         password,
     });
 
-    return res.send(user);
+    return res.status(200).send(user);
 }
 
 async function getUserInfo(req: Request, res: Response): Promise<Response> {
@@ -37,7 +37,7 @@ async function getUserInfo(req: Request, res: Response): Promise<Response> {
 
     const token = await userService.findById(userId);
 
-    return res.send(token);
+    return res.status(200).send(token);
 }
 
 export {
