@@ -1,8 +1,8 @@
 import NotFoundError from '../errors/NotFoundError';
 import * as teacherRepository from '../repositories/teacherRepository';
 
-async function findTeachersList() {
-    const teachers = await teacherRepository.findTeachers();
+async function findTeachersList(name: string) {
+    const teachers = await teacherRepository.findTeachers(name);
 
     return teachers;
 }

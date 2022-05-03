@@ -9,8 +9,9 @@ async function getDisciplinesInfo(req: Request, res: Response): Promise<Response
 
 async function getDisciplinesInfoByTerm(req: Request, res: Response): Promise<Response> {
     const { term } = req.params;
+    const name = req.query.name as string;
 
-    const disciplines = await disciplineService.findDisciplinesListByTerm(Number(term));
+    const disciplines = await disciplineService.findDisciplinesListByTerm(Number(term), name);
 
     return res.send(disciplines);
 }

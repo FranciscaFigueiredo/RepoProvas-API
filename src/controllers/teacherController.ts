@@ -2,7 +2,9 @@ import { Request, Response } from 'express';
 import * as teacherService from '../services/teacherService';
 
 async function getTeachers(req: Request, res: Response): Promise<Response> {
-    const teachers = await teacherService.findTeachersList();
+    const name = req.query.name as string;
+
+    const teachers = await teacherService.findTeachersList(name);
 
     return res.send(teachers);
 }
