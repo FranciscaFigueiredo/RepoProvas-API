@@ -7,6 +7,15 @@ async function getTeachers(req: Request, res: Response): Promise<Response> {
     return res.send(teachers);
 }
 
+async function getTeachersByDisciplineId(req: Request, res: Response): Promise<Response> {
+    const { discipline } = req.params;
+
+    const teachers = await teacherService.findTeacherByDisciplineId(Number(discipline));
+
+    return res.send(teachers);
+}
+
 export {
     getTeachers,
+    getTeachersByDisciplineId,
 };

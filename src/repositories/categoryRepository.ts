@@ -21,7 +21,21 @@ async function findCategoriesByTestTeacher(teacherId: number) {
     return categories;
 }
 
+async function findCategoryById(categoryId: number) {
+    const categories = await repoProvas.test.findMany({
+        where: {
+            id: categoryId,
+        },
+        select: {
+            category: true,
+        },
+    });
+
+    return categories;
+}
+
 export {
     findCategories,
     findCategoriesByTestTeacher,
+    findCategoryById,
 };

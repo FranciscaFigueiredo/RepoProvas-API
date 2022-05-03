@@ -1,4 +1,6 @@
+import { Test } from '@prisma/client';
 import { repoProvas } from '../database';
+import { TestInsertData } from '../interfaces/Test';
 
 async function findTests() {
     const tests = await repoProvas.test.findMany({
@@ -111,9 +113,68 @@ async function findTestsByTeacherAndCategoryId(teacherId: number, categoryId: nu
     return tests;
 }
 
+async function increaseNumberOfViews(id: number): Promise<Test> {
+    const test = repoProvas.test.update({
+        where: {
+            id,
+        },
+        data: {
+            views: {
+                increment: 1,
+            },
+        },
+    });
+
+    return test;
+}
+
+async function create(insertData: TestInsertData): Promise<TestInsertData> {
+    const {
+        name,
+        pdfUrl,
+        categoryId,
+        teacherDisciplineId,
+    } = insertData;
+
+    const test = repoProvas.test.create({
+        data: {
+            name,
+            pdfUrl,
+            categoryId,
+            teacherDisciplineId,
+        },
+    });
+
+    return test;
+}
+
+async function findByName(name: string) {
+    const tests = await repoProvas.test.findFirst({
+        where: {
+            name,
+        },
+    });
+
+    return tests;
+}
+
+async function findById(testId: number) {
+    const tests = await repoProvas.test.findFirst({
+        where: {
+            id: testId,
+        },
+    });
+
+    return tests;
+}
+
 export {
     findTests,
     findTestsByTermNumber,
     findTestsByTermNumberAndDiscipline,
     findTestsByTeacherAndCategoryId,
+    increaseNumberOfViews,
+    create,
+    findByName,
+    findById,
 };
