@@ -1,10 +1,11 @@
 import { Request, Response } from 'express';
+import { TestInsertData } from '../interfaces/Test';
 import * as testService from '../services/testService';
 
 async function getTestsInfo(req: Request, res: Response): Promise<Response> {
     const tests = await testService.findTestsList();
 
-    return res.send(tests);
+    return res.status(200).send(tests);
 }
 
 async function getTestsInfoByTerm(req: Request, res: Response): Promise<Response> {
@@ -12,7 +13,7 @@ async function getTestsInfoByTerm(req: Request, res: Response): Promise<Response
 
     const tests = await testService.findTestsListByTerm(Number(term));
 
-    return res.send(tests);
+    return res.status(200).send(tests);
 }
 
 async function getTestsInfoByTermAndDiscipline(req: Request, res: Response): Promise<Response> {
@@ -21,7 +22,7 @@ async function getTestsInfoByTermAndDiscipline(req: Request, res: Response): Pro
     const tests = await testService
         .findTestsListByTermAndDiscipline(Number(term), Number(discipline));
 
-    return res.send(tests);
+    return res.status(200).send(tests);
 }
 
 async function getTestsInfoByTeacherAndCategory(req: Request, res: Response): Promise<Response> {
@@ -30,7 +31,32 @@ async function getTestsInfoByTeacherAndCategory(req: Request, res: Response): Pr
     const tests = await testService
         .findTestsListByTeacherAndCategory(Number(teacher), Number(category));
 
-    return res.send(tests);
+    return res.status(200).send(tests);
+}
+
+async function patchIncrementNumberOfViews(req: Request, res: Response): Promise<Response> {
+    const { testId } = req.params;
+    const numberOfViews = await testService.incrementNumberOfViews(Number(testId));
+
+    return res.status(200).send(numberOfViews);
+}
+
+async function postNewTestData(req: Request, res: Response): Promise<Response> {
+    const {
+        name,
+        pdfUrl,
+        categoryId,
+        teacherDisciplineId,
+    }: TestInsertData = req.body;
+
+    const tests = await testService.insertNewTestData({
+        name,
+        pdfUrl,
+        categoryId,
+        teacherDisciplineId,
+    });
+
+    return res.status(201).send(tests);
 }
 
 export {
@@ -38,4 +64,6 @@ export {
     getTestsInfoByTerm,
     getTestsInfoByTermAndDiscipline,
     getTestsInfoByTeacherAndCategory,
+    patchIncrementNumberOfViews,
+    postNewTestData,
 };

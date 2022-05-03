@@ -1,3 +1,4 @@
+import NotFoundError from '../errors/NotFoundError';
 import * as categoryRepository from '../repositories/categoryRepository';
 
 async function findCategoriesList() {
@@ -12,7 +13,18 @@ async function findCategoriesByTestTeacher(teacherId: number) {
     return tests;
 }
 
+async function findCategoryById(categoryId: number) {
+    const category = await categoryRepository.findCategoryById(categoryId);
+
+    if (!category) {
+        throw new NotFoundError('');
+    }
+
+    return category;
+}
+
 export {
     findCategoriesList,
     findCategoriesByTestTeacher,
+    findCategoryById,
 };
