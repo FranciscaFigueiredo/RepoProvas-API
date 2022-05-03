@@ -1,9 +1,20 @@
 import { repoProvas } from '../database';
 
-async function findTerms() {
-    const tests = await repoProvas.term.findMany({ });
+async function findTerms(discipline: string) {
+    const terms = await repoProvas.term.findMany({
+        include: {
+            discipline: {
+                where: {
+                    name: {
+                        contains: discipline,
+                        mode: 'insensitive',
+                    },
+                },
+            },
+        },
+    });
 
-    return tests;
+    return terms;
 }
 
 export {

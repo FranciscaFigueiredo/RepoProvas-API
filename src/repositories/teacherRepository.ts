@@ -1,7 +1,14 @@
 import { repoProvas } from '../database';
 
-async function findTeachers() {
-    const teachers = await repoProvas.teacher.findMany({ });
+async function findTeachers(name: string) {
+    const teachers = await repoProvas.teacher.findMany({
+        where: {
+            name: {
+                contains: name,
+                mode: 'insensitive',
+            },
+        },
+    });
 
     return teachers;
 }

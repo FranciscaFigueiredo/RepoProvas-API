@@ -13,9 +13,13 @@ async function findDisciplines() {
     return disciplines;
 }
 
-async function findDisciplinesByTermNumber(number: number) {
+async function findDisciplinesByTermNumber(number: number, name: string) {
     const disciplines = await repoProvas.discipline.findMany({
         where: {
+            name: {
+                contains: name,
+                mode: 'insensitive',
+            },
             term: {
                 number,
             },

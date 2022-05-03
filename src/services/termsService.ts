@@ -1,7 +1,7 @@
 import * as termRepository from '../repositories/termRepository';
 
-async function findTermsList() {
-    const tests = await termRepository.findTerms();
+async function findTermsList(discipline: string) {
+    const tests = await termRepository.findTerms(discipline);
 
     return tests;
 }

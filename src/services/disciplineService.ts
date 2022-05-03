@@ -6,8 +6,8 @@ async function findDisciplinesList() {
     return disciplines;
 }
 
-async function findDisciplinesListByTerm(term: number) {
-    const disciplines = await disciplineRepository.findDisciplinesByTermNumber(term);
+async function findDisciplinesListByTerm(term: number, name: string) {
+    const disciplines = await disciplineRepository.findDisciplinesByTermNumber(term, name);
 
     return disciplines;
 }
