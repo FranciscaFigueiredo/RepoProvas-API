@@ -23,7 +23,7 @@
     "express": "^4.17.3",
     "express-async-errors": "^3.1.1",
     "joi": "^17.6.0",
-    "jsonwebtoken": "^8.5.1",
+    "jsonwebtoken": "^9.0.0",
     "ts-node": "^10.7.0"
   },
   "devDependencies": {
